@@ -28,6 +28,6 @@ export
 
     # Functions
     match, projcdf, projquantile,
-    adjust_pwet, pwet, wet_threshold
+    censor, pwet, wet_threshold
 
 end

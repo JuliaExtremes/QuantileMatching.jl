@@ -1,20 +1,12 @@
-
 """
-    adjust_pwet(y::Vector{<:Real}, p::Real ; fillvalue::Real=0.)
+    censor(y::Vector{<:Real}, u::Real ; fillvalue::Real=0)
 
-Return the vector for which the proportion of wet days is p.
-
-## Details
-
-The function finds the best threshold to obtain the desired proportion of wet days and then subtracts the threshold value. 
-The values below the threshold are replaced with `fillvalue`.
+Return the vector for which the value below `u` are filled with `fillvalue` and where `u` is substracted from the remaining values.
 
 See also [`pwet`](@ref) and [`wet_threshold`](@ref).
 """
-function adjust_pwet(y::Vector{<:Real}, p::Real ; fillvalue::Real=0.)
-    
-    u = wet_threshold(y, p)
-    
+function censor(y::Vector{<:Real} where T<:Real, u::Real ; fillvalue::Real=zero(eltype(y)))
+       
     z = y .- u
     
     z[z .≤ 0.] .= fillvalue
@@ -23,12 +15,13 @@ function adjust_pwet(y::Vector{<:Real}, p::Real ; fillvalue::Real=0.)
     
 end
 
+
 """
     pwet(y::Vector{<:Real}, threshold::Real=0.)
 
 Compute the proportion of values of `y` greater than `threshold`.
 
-See also [`adjust_pwet`](@ref) and [`wet_threshold`](@ref).
+See also [`censor`](@ref) and [`wet_threshold`](@ref).
 """
 function pwet(y::Vector{<:Real}, threshold::Real=0.)
     return count(y .> threshold) / length(y)
@@ -39,9 +32,9 @@ end
 
 Find the threshold for which the proportion of `y` values above this threshold is `p`.
 
-See also [`pwet`](@ref) and [`adjust_pwet`](@ref).
+See also [`pwet`](@ref) and [`censor`](@ref).
 """
-function wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=0., upperbound::Real=5.)
+function wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=.9*minimum(y), upperbound::Real=maximum(y))
     
     @assert 0. ≤ p ≤ 1. "the proportion should be between 0 and 1."
     @assert lowerbound < upperbound "the upper bound should be larger than the lower bound."
