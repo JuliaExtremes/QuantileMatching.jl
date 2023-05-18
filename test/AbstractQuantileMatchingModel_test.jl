@@ -1,0 +1,2 @@
+include("AbstractQuantileMatchingModel/EmpiricalQuantileMatchingModel_test.jl")
+include("AbstractQuantileMatchingModel/ParametricQuantileMatchingModel_test.jl")

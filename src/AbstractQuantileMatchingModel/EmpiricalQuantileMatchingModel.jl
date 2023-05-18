@@ -105,7 +105,7 @@ function showEmpiricalQuantileMatchingModel(io::IO, obj::EmpiricalQuantileMatchi
     println(io, prefix, "    ", "extrapolation: ",get_extrapolation(obj))
 end
 
-function match(eqmm::EmpiricalQuantileMatchingModel, x::Vector{<:Real})
+function match(eqmm::EmpiricalQuantileMatchingModel{Stationary}, x::Vector{<:Real})
     
     nbins = get_nbins(eqmm)
     
@@ -121,4 +121,19 @@ function match(eqmm::EmpiricalQuantileMatchingModel, x::Vector{<:Real})
     itp = extrapolate(itp, get_extrapolation(eqmm))
     
     x̃ = itp(x)
+end
+
+function match(eqmm::EmpiricalQuantileMatchingModel{NonStationary}, x::Vector{<:Real})
+    
+    nbins = get_nbins(eqmm)
+    
+    targetsample = get_targetsample(eqmm)
+    actualsample = get_actualsample(eqmm)
+    projsample = get_projsample(eqmm)
+    
+    z = match(EmpiricalQuantileMatchingModel(targetsample, projsample), x)
+    x̃ = match(EmpiricalQuantileMatchingModel(projsample, actualsample), z)
+    
+    return x̃
+    
 end

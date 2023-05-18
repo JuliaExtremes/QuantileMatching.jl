@@ -1,9 +1,9 @@
 using QuantileMatching
 
-using Distributions, Test
+using Distributions, Interpolations, Test
 
 @testset "QuantileMatching.jl" begin
     
-    include("AbstractQuantileMatchingModel/ParametricQuantileMatchingModel_test.jl")
+    include("AbstractQuantileMatchingModel_test.jl")
 
 end
