@@ -4,21 +4,23 @@ using Distributions, Interpolations, Optim
 
 import Base: match, show
 
-include("functions.jl")
 include("AbstractQuantileMatchingModel.jl")
+include("functions.jl")
 
 
 export
 
-    # Variable type
+    # Abstract types
     AbstractQuantileMatchingModel, 
-    ParametricQuantileMatchingModel,
     NonStationary, Stationary,
+
+    # Parametric type
+    ParametricQuantileMatchingModel,
 
     # Accessing struct features
     get_actualdist, get_targetdist, get_projdist,
 
-    # Variable type
+    # Parametric type
     EmpiricalQuantileMatchingModel,
 
     # Accessing struct features
