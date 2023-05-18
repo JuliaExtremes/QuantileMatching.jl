@@ -43,4 +43,4 @@ jobs:
       - uses: julia-actions/julia-runtest@v1
       - uses: julia-actions/julia-processcoverage@v1
 #      - uses: actions/checkout@master
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3

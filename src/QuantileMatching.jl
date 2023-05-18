@@ -18,6 +18,12 @@ export
     # Accessing struct features
     get_actualdist, get_targetdist, get_projdist,
 
+    # Variable type
+    EmpiricalQuantileMatchingModel
+
+    # Accessing struct features
+    get_actualsample, get_targetsample, get_projsample, get_nbins, get_extrapolation,
+
     # Functions
     match, projcdf, projquantile
 
