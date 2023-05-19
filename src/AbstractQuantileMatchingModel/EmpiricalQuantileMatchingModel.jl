@@ -117,7 +117,7 @@ function match(eqmm::EmpiricalQuantileMatchingModel{Stationary}, x::Vector{<:Rea
     q_target = quantile(targetsample, p, sorted=true)
     q_actual = quantile(actualsample, p, sorted=true)
     
-    itp = interpolate((q_actual,), Interpolations.deduplicate_knots!(q_target), Gridded(Interpolations.Linear()))
+    itp = interpolate((Interpolations.deduplicate_knots!(q_actual),), Interpolations.deduplicate_knots!(q_target), Gridded(Interpolations.Linear()))
     itp = extrapolate(itp, get_extrapolation(eqmm))
     
     x̃ = itp(x)
