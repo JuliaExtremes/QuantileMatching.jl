@@ -12,19 +12,15 @@
     end
 
     @testset "wet_mean" begin
-        @test wet_mean(y, .5, threshold=0) ≈ 3.5
+        @test wet_mean(y, 0) ≈ 2.5
     end
 
     @testset "wet_quantile" begin
-        @test wet_quantile(y, .5, threshold=0) ≈ 2.5
-    end
-
-    @testset "wet_quantile" begin
-        @test wet_quantile(y, .5, threshold=0) ≈ 2.5
+        @test wet_quantile(y, .5, 0) ≈ 2.5
     end
 
     @testset "wet_sum" begin
-        @test wet_sum(y, .5, threshold=0) ≈ 7
+        @test wet_sum(y, 0) ≈ 10
     end
 
     @testset "wet_threshold" begin

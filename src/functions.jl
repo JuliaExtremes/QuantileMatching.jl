@@ -23,36 +23,33 @@ Compute the proportion of values of `y` greater than `threshold`.
 
 See also [`censor`](@ref) and [`wet_threshold`](@ref).
 """
-function pwet(y::Vector{<:Real}, threshold::Real=0.)
+function pwet(y::Vector{<:Real}, threshold::Real=zero(eltype(y)))
     return count(y .> threshold) / length(y)
 end 
 
-
 """
-    wet_mean(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+    wet_mean(y::Vector{<:Real}, threshold::Real=zero(eltype(y)))
 
-Compute the mean of the exceedances above the `p`th quantile of the elements of `y` exceeding the threshold `threshold`.
+Compute the mean of the elements of `y` exceeding the threshold `threshold`.
 
 See also [`wet_quantile`](@ref) and [`wet_sum`](@ref).
 """
-function wet_mean(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
-    
-    u = wet_quantile(y, p, threshold = threshold)
+function wet_mean(y::Vector{<:Real}, threshold::Real=zero(eltype(y)))
 
-    z = y[y .> u]
+    z = y[y .> threshold]
 
     return mean(z)
 end
 
+
 """
-    wet_quantile(y::Vector{<:Real}, p::Real; threshold:Real=1)
+    wet_quantile(y::Vector{<:Real}, p::Real; threshold::Real=zero(eltype(y)))
 
 Compute the empirical quantile of order `p` of the values `y` exceeding the threshold `threshold`.
 
 See also [`wet_mean`](@ref) and [`wet_sum`](@ref).
 """
-function wet_quantile(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
-    @assert zero(p)<p<one(p) "the quantile level should be between 0 and 1."
+function wet_quantile(y::Vector{<:Real}, p::Real, threshold::Real=zero(eltype(y)))
 
     z = y[y .> threshold]
 
@@ -61,17 +58,15 @@ end
 
 
 """
-    wet_sum(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+    wet_sum(y::Vector{<:Real}, threshold::Real=zero(eltype(y)))
 
-Compute the sum of the exceedances above the `p`th quantile of the elements of `y` exceeding the threshold `threshold`.
+Compute the sum of the elements of `y` exceeding the threshold `threshold`.
 
 See also [`wet_mean`](@ref) and [`wet_quantile``](@ref).
 """
-function wet_sum(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+function wet_sum(y::Vector{<:Real}, threshold::Real=zero(eltype(y)))
     
-    u = wet_quantile(y, p, threshold = threshold)
-
-    z = y[y .> u]
+    z = y[y .> threshold]
 
     return sum(z)
 end
