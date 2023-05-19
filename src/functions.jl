@@ -27,6 +27,55 @@ function pwet(y::Vector{<:Real}, threshold::Real=0.)
     return count(y .> threshold) / length(y)
 end 
 
+
+"""
+    wet_mean(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+
+Compute the mean of the exceedances above the `p`th quantile of the elements of `y` exceeding the threshold `threshold`.
+
+See also [`wet_quantile`](@ref) and [`wet_sum`](@ref).
+"""
+function wet_mean(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+    
+    u = wet_quantile(y, p, threshold = threshold)
+
+    z = y[y .> u]
+
+    return mean(z)
+end
+
+"""
+    wet_quantile(y::Vector{<:Real}, p::Real; threshold:Real=1)
+
+Compute the empirical quantile of order `p` of the values `y` exceeding the threshold `threshold`.
+
+See also [`wet_mean`](@ref) and [`wet_sum`](@ref).
+"""
+function wet_quantile(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+    @assert zero(p)<p<one(p) "the quantile level should be between 0 and 1."
+
+    z = y[y .> threshold]
+
+    return quantile(z, p)
+end
+
+
+"""
+    wet_sum(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+
+Compute the sum of the exceedances above the `p`th quantile of the elements of `y` exceeding the threshold `threshold`.
+
+See also [`wet_mean`](@ref) and [`wet_quantile``](@ref).
+"""
+function wet_sum(y::Vector{<:Real}, p::Real; threshold::Real=one(eltype(y)))
+    
+    u = wet_quantile(y, p, threshold = threshold)
+
+    z = y[y .> u]
+
+    return sum(z)
+end
+
 """
     wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=0., upperbound::Real=5.)
 
@@ -48,3 +97,10 @@ function wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=.9*minimum(
     return u
     
 end
+
+
+
+
+
+
+

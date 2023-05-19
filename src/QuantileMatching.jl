@@ -4,8 +4,9 @@ using Distributions, Interpolations, Optim
 
 import Base: match, show
 
-include("AbstractQuantileMatchingModel.jl")
 include("functions.jl")
+include("AbstractQuantileMatchingModel.jl")
+
 
 
 export
@@ -28,6 +29,6 @@ export
 
     # Functions
     match, projcdf, projquantile,
-    censor, pwet, wet_threshold
+    censor, pwet, wet_mean, wet_sum, wet_quantile, wet_threshold
 
 end
