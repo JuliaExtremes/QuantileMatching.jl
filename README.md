@@ -3,10 +3,13 @@
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![Build status](https://github.com/JuliaExtremes/QuantileMatching.jl/workflows/CI/badge.svg)](https://github.com/JuliaExtremes/QuantileMatching.jl/actions)
 [![codecov](https://codecov.io/gh/JuliaExtremes/QuantileMatching.jl/branch/main/graph/badge.svg?token=5fe36122-1af1-4494-be65-e307d5aa8acc)](https://codecov.io/gh/JuliaExtremes/QuantileMatching.jl)
+[![documentation stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://juliaextremes.github.io/QuantileMatching.jl/stable/)
+[![documentation latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://juliaextremes.github.io/QuantileMatching.jl/dev/)
+
 
 TThe package provides several exhaustive high-performance functions to perform quantile matching (QM; see for example Panofsky and Brier, 1968 and Themeßl *et al.*, 2011) of an actual distribution and a target distribution. It also provides the functions for the non-stationary case (see for example Michelangeli *et al.*, 2009). 
 
-See the [Package Documentation](https://JuliaExtremes.github.io/QuantileMatching.jl/dev/) for details and examples.
+See the [Package Documentation](https://JuliaExtremes.github.io/QuantileMatching.jl/stable/) for details and examples.
 
 ## Installation
 
