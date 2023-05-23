@@ -15,6 +15,7 @@ Before executing this tutorial, make sure to have installed the following packag
 and import them using the following command:
  ```@repl stationary
 using CSV, DataFrames, Dates, ExtendedExtremes, Extremes, Plots, QuantileMatching
+ENV["GKSwstype"] = "100" # hide
 ```
 
 ## Load the data
