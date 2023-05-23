@@ -1,4 +1,9 @@
 
+"""
+    AbstractQuantileMatchingModel
+
+Abstract type containing the concrete types [`EmpiricalQuantileMatchingModel`](@ref) and [`ParametricQuantileMatchingModel`](@ref).
+"""
 abstract type AbstractQuantileMatchingModel end
 
 abstract type Stationary end

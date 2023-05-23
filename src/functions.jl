@@ -62,7 +62,7 @@ end
 
 Compute the sum of the elements of `y` exceeding the threshold `threshold`.
 
-See also [`wet_mean`](@ref) and [`wet_quantile``](@ref).
+See also [`wet_mean`](@ref) and [`wet_quantile`](@ref).
 """
 function wet_sum(y::Vector{<:Real}, threshold::Real=zero(eltype(y)))
     

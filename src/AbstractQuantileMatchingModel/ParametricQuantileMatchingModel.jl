@@ -109,7 +109,6 @@ Compute the quantile function corresponding to the projection cdf.
 
 See also [`projcdf`](@ref).
 """
-
 function projquantile(nspqm::ParametricQuantileMatchingModel, p::Real)
     
     targetdist = get_targetdist(nspqm)
