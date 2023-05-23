@@ -7,6 +7,7 @@ Before executing this tutorial, make sure to have installed the following packag
 
 - *CSV.jl* (for loading the data)
 - *DataFrames.jl* (for using the DataFrame type)
+- *Distributions.jl* (for using distribution objects)
 - *ExtendedExtremes.jl* (for modeling the bulk and the tail of a distribution)
 - *Extremes.jl* (for modeling the tail of a distribution)
 - *Plots.jl* (for plotting)
@@ -14,7 +15,7 @@ Before executing this tutorial, make sure to have installed the following packag
 
 and import them using the following command:
  ```@repl stationary
-using CSV, DataFrames, Dates, ExtendedExtremes, Extremes, Plots, QuantileMatching
+using CSV, DataFrames, Dates, Distributions, ExtendedExtremes, Extremes, Plots, QuantileMatching
 ENV["GKSwstype"] = "100" # hide
 ```
 
@@ -133,4 +134,63 @@ x̃[x̃ .> 0] = x̃⁺
 println("") # hide
 ```
 
+## Parametric quantile matching
 
+### Using the Gamma distribution
+
+[Piani *et al.*, (2010)](https://link.springer.com/article/10.1007/s00704-009-0134-9) propose to use the Gamma distribution to perform parametric quantile matching of precipitation. 
+
+Modeling the non-zero observed precipitations with the Gamma distribution:
+
+```@repl stationary
+fd_Y = fit_mle(Gamma, y⁺)
+```
+
+Goodness-of-fit of the model:
+
+```@example stationary
+Plots.default(size=(800,300)) # hide
+plot(QuantileMatching.histplot(y⁺, fd_Y, 0, 50), 
+    QuantileMatching.qqplot(y⁺, fd_Y))
+```
+
+!!! note
+
+    In this case, the Gamma distribution does not fit well the data. It is not surprising since precipitation is usually heavy-tailed but the Gamma distribution is light-tailed.
+
+Modeling the non-zero simulated precipitations with the Gamma distribution:
+
+```@repl stationary
+fd_X = fit_mle(Gamma, x⁺)
+```
+
+Goodness-of-fit of the model:
+
+```@example stationary
+Plots.default(size=(800,300)) # hide
+plot(QuantileMatching.histplot(x⁺, fd_X, 0, 50), 
+    QuantileMatching.qqplot(x⁺, fd_X))
+```
+
+Defining the model:
+
+```@repl stationary
+qmm = ParametricQuantileMatchingModel(fd_Y, fd_X)
+```
+
+Quantile matching of the non-zero simulated precipitations:
+```@example stationary
+x̃⁺ = match(qmm, x⁺)
+
+println("") # hide
+```
+Comparing the post-processed simulated precipitation distribution with the one for the observations
+
+```@example stationary
+Plots.default(size=(400,300)) # hide
+QuantileMatching.qqplot(y⁺, x̃⁺)
+```
+
+!!! note
+
+    The corrected value distribution is not matching well the observation distribution. It is notably due to the fact that the Gamma distribution is light-tailed while precipitation is heavy-tailed.

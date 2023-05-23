@@ -11,7 +11,7 @@ end
 
 function histplot(y::Vector{Float64}, pd::Distribution)
    
-    fig = Plots.histogram(y, normed=true, alpha=0.6, label="", c=:grey, legend=false)
+    fig = Plots.histogram(y, normed=true, alpha=0.6, label="", c=:grey, legend=false, xlabel="Data", ylabel="Density")
     xl = xlims(fig)
     Plots.plot!(x -> pdf.(pd, x), xl[1], xl[2], label="", c=:black, linewidth = 1.5)
     
@@ -33,7 +33,9 @@ end
 
 function qqplot(y::Vector{Float64}, pd::Distribution)
     
-    q̂, p = QuantileMatching.ecdf(y)
+    q, p = QuantileMatching.ecdf(y)
+
+    q̂ = quantile(pd, p)
     
     Plots.plot(q, q̂, seriestype = :scatter, markerstrokewidth=0, markercolor=:grey, label="",
         xlabel="empirical quantile", ylabel="estimated quantile")
