@@ -24,7 +24,7 @@ To perform quantile matching, the model has to be defined in a [`AbstractQuantil
 
 If the cdfs are known, the [`ParametricQuantileMatchingModel`](@ref) structure can be defined and the [`match`](@ref) method can be applied to it to perform quantile matching. In practice, the cdfs are generally unknown. They can be estimated either non-parametrically using the empirical distribution function or using a parametric estimate. The first approach is known as empirical quantile matching and the second as parametric quantile matching. The parametric estimates can be used to define the [`ParametricQuantileMatchingModel`](@ref) structure. 
 
-Turnkey solutions are also provided to automatically perform quantile matching from random samples of different distributions. See for example `eqm` and `pqm`. More details are available in the [Example](@ref).
+Turnkey solutions are also provided to automatically perform quantile matching from random samples of different distributions. See for example `eqm` and `pqm`. More details are available in the Example.
 
 ## Empirical Quantile Matching
 
@@ -66,7 +66,7 @@ where $u$ is the threshold for which the probability that $X$ exceeds $u$ is equ
 - [`wet_threshold`](@ref);
 - [`pwet`](@ref).
 
-More details are available in the [Example](@ref).
+More details are available in the Example.
 
 !!! note
     The library was developed with the idea of post-processing the outputs of numerical climate models. This is why several functions use terminology associated with climate sciences. The functions are however general enough to be applied to other contexts. For example, censoring can be done for a threshold different from 0.

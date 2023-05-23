@@ -1,13 +1,13 @@
 module QuantileMatching
 
-using Distributions, Interpolations, Optim
+using CSV, DataFrames, Distributions, Interpolations, Optim, Plots
 
 import Base: match, show
 
+include("data.jl")
 include("functions.jl")
+include("plots.jl")
 include("AbstractQuantileMatchingModel.jl")
-
-
 
 export
 

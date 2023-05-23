@@ -8,7 +8,7 @@ makedocs(sitename = "QuantileMatching.jl",
     ),
     pages = [
        "description.md",
-       "example.md",
+       "Example" =>["Stationary Quantile Matching" => "example/stationary.md"],
        "contributing.md",
        "index.md"]
 )

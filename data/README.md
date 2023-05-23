@@ -2,7 +2,7 @@
 
 ## observations.csv
 
-Daily precipitation (in mm) for the months of May to October recorded between 1955 and 2010 at the Montreal-Trudeau International Airport. The data were retrieved from the [Environment Canada website](https://climate.weather.gc.ca/historical_data/search_historic_data_e.html). 
+Daily precipitation (in mm) for the months of May to October recorded between 1955 and 2010 at the Montréal-Trudeau International Airport. The data were retrieved from the [Environment Canada website](https://climate.weather.gc.ca/historical_data/search_historic_data_e.html). 
 
 ## simulations.csv
 
