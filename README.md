@@ -14,13 +14,50 @@ Therefore,
 
 $$\tilde{x} = F_Y^{-1} \left\lbrace F_X(x) \right\rbrace.$$
 
-The package also provides functions for the CDF-t approach (Michelangeli *et al., 2009) which extends the quantile matching framework to the non-stationary context. Let $F_{X^\prime}$ be the cumulative distribution function projected with respect to $F_X$. The CDF-t approach defines the projected target cumulative distribution function $F_{Y^\prime}$ as follows:
+The package also provides functions for the CDF-t approach (Michelangeli *et al.*, 2009) which extends the quantile matching framework to the non-stationary context. Let $F_{X^\prime}$ be the cumulative distribution function projected with respect to $F_X$. The CDF-t approach defines the projected target cumulative distribution function $F_{Y^\prime}$ as follows:
 
 $$F_{Y^\prime}(x) = F_Y \left[ F_X^{-1} \left\lbrace F_{X^\prime}(x) \right\rbrace \right].$$
 
-Let $x$ be a realization of the projected cdf $F_{X^\prime}$. The corresponding value with respect to F_{Y\prime} is as follows:
+Let $x$ be a realization of the projected cdf $F_{X^\prime}$. The corresponding value with respect to $F_{Y^\prime}$ is as follows:
 
 $$\tilde{x} = F_{Y^\prime}^{-1} \left\lbrace F_{X^\prime}(x) \right\rbrace.$$
+
+## Package usage
+
+To perform quantile matching, the model has to be defined in a `AbstractQuantileMatchingModel` and the method `match` method can be applied to correct the given values. 
+
+If the cdfs are known, the `ParametricQuantileMatchingModel` structure can be defined and the `match` method can be applied to it to perform quantile matching. In practice, the cdfs are unknown. They can be estimated either non-parametrically using the empirical distribution function or using a parametric estimate. The first approach is known as empirical quantile matching and the second as parametric quantile matching.
+
+## Empirical Quantile Matching
+
+- `EmpiricalQuantileMatchingModel`
+
+## Parametric Quantile Matching
+
+- `ParametricQuantileMatchingModel`
+
+## Frequency adjustment
+
+
+When working with a distribution having a mass at 0, such as for precipitation, Themeßl *et al.* (2011) propose to censor the value of the realization $x^\star$ of the actual cdf as follows:
+
+$$ x = \begin{cases}
+        0 & \mbox{ if } x^\star_i \leq u ;\\
+        x^\star_i - u & \mbox{ if } x^\star_i > u.
+    \end{cases} $$
+
+where $u$ is the threshold for which the probability that $X$ exceeds $u$ is equal to the probability that $Y$ exceeds 0.
+
+- [`censor`](@ref)
+- [`find_threshold`](@ref)
+- [`pwet`](@ref)
+
+
+**Note:**
+
+    The library was developed with the idea of post-processing the outputs of numerical climate models. This is why several functions use terminology associated with climate sciences. The functions are however general enough to be applied to other contexts. For example, censoring can be done for a threshold different from 0.
+
+
 
 
 ### References
