@@ -10,7 +10,7 @@ $$F_Y(\tilde{x}) = F_X(x).$$
 
 Therefore,
 
-$$\tilde{x} = F_Y^{-1} \left\{ F_X(x) \right\}.$$
+$$\tilde{x} = F_Y^{-1} \left\brace F_X(x) \right\rbrace.$$
 
 
 ### Reference
