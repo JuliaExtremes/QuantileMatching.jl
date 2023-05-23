@@ -14,13 +14,13 @@ Therefore,
 
 $$\tilde{x} = F_Y^{-1} \left\lbrace F_X(x) \right\rbrace.$$
 
-The package also provides functions for the CDF-t approach (Michelangeli *et al., 2009) which extends the quantile matching framework to the non-stationary context. Let $F_{X\prime}$ be the cumulative distribution function projected with respect to $F_X$. The CDF-t approach defines the projected target cumulative distribution function $F_{Y\prime}$ as follows:
+The package also provides functions for the CDF-t approach (Michelangeli *et al., 2009) which extends the quantile matching framework to the non-stationary context. Let $F_{X^\prime}$ be the cumulative distribution function projected with respect to $F_X$. The CDF-t approach defines the projected target cumulative distribution function $F_{Y^\prime}$ as follows:
 
-$$$F_{Y\prime}(x) = F_Y \left[ F_X^{-1} \left\lbrace F_{X\prime}(x) \right\rbrace \right].$
+$$F_{Y^\prime}(x) = F_Y \left[ F_X^{-1} \left\lbrace F_{X^\prime}(x) \right\rbrace \right].$$
 
-Let $x$ be a realization of the projected cdf $F_{X\prime}$. The corresponding value with respect to F_{Y\prime} is as follows:
+Let $x$ be a realization of the projected cdf $F_{X^\prime}$. The corresponding value with respect to F_{Y\prime} is as follows:
 
-$$\tilde{x} = F_{Y\prime}^{-1} \left\lbrace F_{X\prime}(x) \right\rbrace.$$
+$$\tilde{x} = F_{Y^\prime}^{-1} \left\lbrace F_{X^\prime}(x) \right\rbrace.$$
 
 
 ### References
