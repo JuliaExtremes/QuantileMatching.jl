@@ -6,7 +6,7 @@
 
 TThe package provides several exhaustive high-performance functions to perform quantile matching (QM; see for example Panofsky and Brier, 1968 and Themeßl *et al.*, 2011) of an actual distribution and a target distribution. It also provides the functions for the non-stationary case (see for example Michelangeli *et al.*, 2009). 
 
-See the [Package Documentation](https://jojal5.github.io/Extremes.jl/dev/) for details and examples.
+See the [Package Documentation](https://JuliaExtremes.github.io/QuantileMatching.jl/dev/) for details and examples.
 
 ## Installation
 
