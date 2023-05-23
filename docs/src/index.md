@@ -1,7 +1,6 @@
 
 # Index
 
-
 ## Abstract Quantile Matching model
 
 ### Types
