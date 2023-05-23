@@ -13,6 +13,16 @@ makedocs(sitename = "QuantileMatching.jl",
        "index.md"]
 )
 
-deploydocs(
-    repo = "github.com/JuliaExtremes/QuantileMatching.jl.git",
-)
+# deploydocs(
+#     repo = "github.com/JuliaExtremes/QuantileMatching.jl.git",
+# )
+
+if CI
+    deploydocs(
+    repo   = "github.com/JuliaExtremes/QuantileMatching.jl.git",
+    devbranch = "dev",
+    versions = ["stable" => "v^", "v#.#", "main"],
+    push_preview = false,
+    target = "build"
+    )
+end
