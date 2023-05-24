@@ -20,6 +20,26 @@ julia> import Pkg
 julia> Pkg.add("QuantileMatching")
 ```
 
+## Contributing
+
+Contributions are welcomed. Here's the workflow for development of new features, refactoring and bugfix.
+
+```
+main                     # Stable branch, always ready to be tagged
+
+dev                      # Development branch. New features, refactoring, bug and hotfix 
+                         # are integrated into dev before going into master.
+                        
+feature/<feature-name>   # New feature needs a `feature` prefix
+        
+refactor/<refactor-name> # Refactoring are tagged with a `refactor` prefix
+   
+bug/<bug-fix>            # Prefix for bugs found during development
+          
+hotfix/<hot-fix>         # Prefix for hotfix (bugs for deployed versions)
+      
+```
+
 ### References
 
 Michelangeli, P.-A., Vrac, M., and Loukos, H. (2009), Probabilistic downscaling approaches: 
