@@ -18,6 +18,18 @@
 
     end
 
+    @testset "eqm" begin
+        
+        targetsample = [0.07703698739948968, 0.102010815529894, 0.4990629587314525, 0.7084891227459724, 0.7244081720416414]
+        actualsample = [0.21713363327549823, 1.502901744984021, 2.046092118287037, 2.2249912757196464, 2.6629189261859207]
+
+        qmm = EmpiricalQuantileMatchingModel(targetsample, actualsample)
+        x̃ = match(qmm, actualsample)
+
+        @test all(QuantileMatching.eqm(targetsample, actualsample) .≈ x̃)
+
+    end
+ 
     y = [0, 1, 2, 3, 4]
 
     @testset "censor" begin
