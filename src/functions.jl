@@ -30,7 +30,7 @@ end
 """
     eqm(y::Vector{<:Real}, x::Vector{<:Real})
 
-Returns the corrected values of the actual sample `x` relative to the target sample `y` by empirical quantile matching.
+Return the corrected values of the actual sample `x` relative to the target sample `y` by empirical quantile matching.
 
 ## Details
 
@@ -54,6 +54,44 @@ function eqm(y::Vector{<:Real}, x::Vector{<:Real})
     x̃⁺ = match(qmm, x⁺)
 
     # Replace the non-zero values in the frequency adjusted series.
+    x̃[x̃ .> 0] = x̃⁺
+
+    return x̃
+    
+end
+
+"""
+    pqm(pd::Type{<:ContinuousUnivariateDistribution}, y::AbstractVector{<:Real}, x::AbstractVector{<:Real})
+
+Return the corrected values of the actual sample `x` relative to the target sample `y` by parametric quantile matching specified by `pd`.
+
+## Details
+
+The quantile matching is done in two steps. The first step is to adjust the proportion of wet days and the second step is to correct for 
+non-zero values using the specified distribution.
+"""
+function pqm(pd::Type{<:ContinuousUnivariateDistribution}, y::AbstractVector{<:Real}, x::AbstractVector{<:Real})
+    
+    # Adjust the non-zero frequency
+    p = pwet(y)
+    u = wet_threshold(x, p)
+    x̃ = censor(x, u)
+    
+    # Extracting non-zero values
+    y⁺ = filter(v -> v>0, y)
+    x⁺ = filter(v -> v>0, x̃)
+    
+    # Fit the parametric distributions on the target and actual samples
+    fd_Y = fit(pd, y⁺)
+    fd_X = fit(pd, x⁺)
+    
+    # Define the parametric quantile matching model
+    qmm = ParametricQuantileMatchingModel(fd_Y, fd_X)
+
+    # Quantile matching of non-zero values
+    x̃⁺ = match(qmm, x⁺)
+
+    # Replace the non-zero values in the frequency adjusted series. 
     x̃[x̃ .> 0] = x̃⁺
 
     return x̃
