@@ -4,15 +4,17 @@
 
 Compute the empirical cumulative distribution function using the Gumbel formula.
 
+## Details
+
 The empirical quantiles are computed using the Gumbel plotting positions as
 as recommended by [Makkonen (2006)](https://journals.ametsoc.org/jamc/article/45/2/334/12668/Plotting-Positions-in-Extreme-Value-Analysis).
 
-# Example
+## Example
 ```julia-repl
 julia> (x, F̂) = Extremes.ecdf(y)
 ```
 
-# Reference
+## Reference
 Makkonen, L. (2006). Plotting positions in extreme value analysis. Journal of
 Applied Meteorology and Climatology, 45(2), 334-340.
 """
@@ -23,6 +25,41 @@ function ecdf(y::Vector{<:Real})::Tuple{Vector{<:Real}, Vector{<:Real}}
 
     return ys, p
 end
+
+
+"""
+    eqm(y::Vector{<:Real}, x::Vector{<:Real})
+
+Returns the corrected values of the actual sample `x` relative to the target sample `y` by empirical quantile matching.
+
+## Details
+
+The quantile matching is done in two steps. The first step is to adjust the proportion of wet days and the second step is to correct for non-zero values.
+"""
+function eqm(y::Vector{<:Real}, x::Vector{<:Real})
+    
+    # Adjust the non-zero frequency
+    p = pwet(y)
+    u = wet_threshold(x, p)
+    x̃ = censor(x, u)
+    
+    # Extracting non-zero values
+    y⁺ = filter(v -> v>0, y)
+    x⁺ = filter(v -> v>0, x̃)
+    
+    # Define the empirical quantile matching model
+    qmm = EmpiricalQuantileMatchingModel(y⁺, x⁺)
+
+    # Quantile matching of non-zero values
+    x̃⁺ = match(qmm, x⁺)
+
+    # Replace the non-zero values in the frequency adjusted series.
+    x̃[x̃ .> 0] = x̃⁺
+
+    return x̃
+    
+end
+
 
 """
     censor(y::Vector{<:Real}, u::Real ; fillvalue::Real=0)
@@ -104,7 +141,7 @@ Find the threshold for which the proportion of `y` values above this threshold i
 
 See also [`pwet`](@ref) and [`censor`](@ref).
 """
-function wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=.9*minimum(y), upperbound::Real=maximum(y))
+function wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=.9*minimum(y), upperbound::Real=1.1*maximum(y))
     
     @assert 0. ≤ p ≤ 1. "the proportion should be between 0 and 1."
     @assert lowerbound < upperbound "the upper bound should be larger than the lower bound."
