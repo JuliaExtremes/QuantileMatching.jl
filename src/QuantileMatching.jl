@@ -1,6 +1,6 @@
 module QuantileMatching
 
-using CSV, DataFrames, Distributions, Interpolations, Optim, Plots
+using CSV, DataFrames, Distributions, Interpolations, Plots
 
 import Base: match, show
 

@@ -22,6 +22,8 @@
 
     @testset "censor" begin
         @test all(censor(y,1) .== [0, 0, 1, 2, 3])
+        @test all(censor(y,-Inf) .== [0, 1, 2, 3, 4])
+        @test all(censor(y,+Inf) .== [0, 0, 0, 0, 0])
     end
 
     @testset "pwet" begin
@@ -41,7 +43,9 @@
     end
 
     @testset "wet_threshold" begin
-        @test 1. ≤ wet_threshold(y, 3/5) ≤ 2.
+        @test wet_threshold(y, 3/5) ≈ 1.
+        @test wet_threshold(y, 0) ≈ Inf
+        @test wet_threshold(y, 1) ≈ -Inf
     end
 
 end
