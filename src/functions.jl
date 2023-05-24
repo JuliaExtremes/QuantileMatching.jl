@@ -69,10 +69,15 @@ Return the vector for which the value below `u` are filled with `fillvalue` and 
 See also [`pwet`](@ref) and [`wet_threshold`](@ref).
 """
 function censor(y::Vector{<:Real} where T<:Real, u::Real ; fillvalue::Real=zero(eltype(y)))
-       
-    z = y .- u
     
-    z[z .≤ 0.] .= fillvalue
+    if isfinite(u)
+        z = y .- u
+        z[z .≤ 0.] .= fillvalue
+    elseif u == -Inf
+        z = y
+    else
+        z = fill(fillvalue, length(y))
+    end
     
     return z
     
@@ -135,30 +140,23 @@ function wet_sum(y::Vector{<:Real}, threshold::Real=zero(eltype(y)))
 end
 
 """
-    wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=0., upperbound::Real=5.)
+    wet_threshold(y::AbstractVector{<:Real}, p::Real)
 
 Find the threshold for which the proportion of `y` values above this threshold is `p`.
 
 See also [`pwet`](@ref) and [`censor`](@ref).
 """
-function wet_threshold(y::Vector{<:Real}, p::Real ; lowerbound::Real=.9*minimum(y), upperbound::Real=1.1*maximum(y))
+function wet_threshold(y::AbstractVector{<:Real}, p::Real)
     
     @assert 0. ≤ p ≤ 1. "the proportion should be between 0 and 1."
-    @assert lowerbound < upperbound "the upper bound should be larger than the lower bound."
-    
-    fobj(threshold::Real) = (pwet(y, threshold) - p)^2
-    
-    res = optimize(fobj, lowerbound, upperbound)
 
-    u = Optim.minimizer(res)
+    # Adding -Inf and +Inf at the ends of y
+    z = [-Inf; y; Inf]
     
-    return u
+    q̂, p̂ = QuantileMatching.ecdf(z)
+    
+    _, ind = findmin((p̂ .- (1 .-p) ).^2)
+
+    return q̂[ind]
     
 end
-
-
-
-
-
-
-
