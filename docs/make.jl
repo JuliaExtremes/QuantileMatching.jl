@@ -8,14 +8,10 @@ makedocs(sitename = "QuantileMatching.jl",
     ),
     pages = [
        "description.md",
-       "Example" =>["Stationary Quantile Matching" => "example/stationary.md"],
-       "contributing.md",
+       "StationaryQuantileMatching.md",
+       "NonStationaryQuantileMatching.md",
        "index.md"]
 )
-
-# deploydocs(
-#     repo = "github.com/JuliaExtremes/QuantileMatching.jl.git",
-# )
 
 if CI
     deploydocs(

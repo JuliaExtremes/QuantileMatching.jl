@@ -1,6 +1,6 @@
 module QuantileMatching
 
-using CSV, DataFrames, Distributions, Interpolations, Optim, Plots
+using CSV, DataFrames, Distributions, Interpolations, Plots
 
 import Base: match, show
 
@@ -29,6 +29,7 @@ export
 
     # Functions
     match, projcdf, projquantile,
-    censor, pwet, wet_mean, wet_sum, wet_quantile, wet_threshold
+    censor, pwet, wet_mean, wet_sum, wet_quantile, wet_threshold,
+    eqm, pqm
 
 end
