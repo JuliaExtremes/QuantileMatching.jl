@@ -112,6 +112,14 @@ x⁺ = filter(val -> val >0, x̃)
 println("") # hide
 ```
 
+### Store the frequency adjusted non-zero simulated precipitation in a DataFrame
+
+```@example stationary
+results = DataFrame(Date = sim.Date[sim.Precipitation.>u])
+results[:, :RAW] =  x⁺
+first(results,5)
+```
+
 ## Empirical Quantile Matching
 
 ### Model definition
@@ -147,6 +155,13 @@ Adding the zeros from the frequency adjusted values:
 x̃[x̃ .> 0] = x̃⁺
 
 println("") # hide
+```
+
+### Store the corrected non-zero precipitation in the results DataFrame
+
+```@example stationary
+results[:, :EQM] = x̃⁺
+first(results,5)
 ```
 
 ## Gamma Quantile Matching
@@ -214,6 +229,13 @@ QuantileMatching.qqplot(y⁺, x̃⁺)
 !!! note
 
     The corrected value distribution is not matching well the observation distribution. It is notably due to the fact that the Gamma distribution is light-tailed while precipitation is heavy-tailed.
+
+### Store the corrected non-zero precipitation in the results DataFrame
+
+```@example stationary
+results[:, :GQM] = x̃⁺
+first(results,5)
+```
 
 
 ## Gamma-Generalized Pareto Quantile Matching
@@ -296,6 +318,13 @@ Plots.default(size=(400,300)) # hide
 QuantileMatching.qqplot(y⁺, x̃⁺)
 ```
 
+### Store the corrected non-zero precipitation in the results DataFrame
+
+```@example stationary
+results[:, :GGPQM] = x̃⁺
+first(results,5)
+```
+
 ## Extended Generalized Pareto Quantile Matching
 
 Gobeil *et al.* (2023, submitted) propose to use the extended Generalized Pareto distribution developed by [Gamet and Jalbert (2022)](https://onlinelibrary.wiley.com/doi/full/10.1002/env.2744) to perform parametric quantile matching of precipitation. This parametric quantile matching method is referred to here as *Extended Generalized Pareto Quantile Matching* (EGPQM). 
@@ -352,4 +381,65 @@ Comparing the post-processed simulated precipitation distribution with the one f
 ```@example stationary
 Plots.default(size=(400,300)) # hide
 QuantileMatching.qqplot(y⁺, x̃⁺)
+```
+
+```@example stationary
+results[:, :EGPQM] = x̃⁺
+first(results,5)
+```
+
+
+## Comparison of quantile matched data
+
+```@example stationary
+
+v = [y⁺]
+
+for col in [:RAW, :EQM, :GQM, :GGPQM, :EGPQM]
+    push!(v, results[:,col])
+end
+
+df_indices = DataFrame(Index=String[], 
+    Observations=Float64[], 
+    RAW=Float64[], 
+    EQM=Float64[],
+    GQM=Float64[],
+    GGPQM=Float64[],
+    EGPQM=Float64[])
+
+push!(df_indices, ["SDII", wet_mean.(v)...])
+push!(df_indices, ["skewness", skewness.(v)...])
+push!(df_indices, ["R10", pwet.(v,10)...])
+push!(df_indices, ["p90wet", wet_quantile.(v, .9, 1)...])
+push!(df_indices, ["p98wet", wet_quantile.(v, .98, 1)...])
+push!(df_indices, ["p98wetamountmean", wet_mean.(v, wet_quantile.(v, .98, 1))...])
+```
+
+
+```@example stationary
+
+obs[:,:Year] = year.(obs.Date)
+
+df_annualmaxima_obs = combine(groupby(obs, :Year), :Precipitation => maximum => :Observation)
+
+results[:,:Year] = year.(results.Date)
+
+df_annualmaxima_sim = combine(groupby(results, :Year), :RAW => maximum => :RAW)
+
+df_annualmaxima_sim = combine(groupby(results, :Year), 
+    [col => maximum => col for col in [:RAW, :EQM, :GQM, :GGPQM, :EGPQM]])
+
+df_annualmaxima = innerjoin(df_annualmaxima_obs, df_annualmaxima_sim, on=:Year)
+
+RV20 = Float64[]
+RV100 = Float64[]
+
+for col in [:Observation, :RAW, :EQM, :GQM, :GGPQM, :EGPQM]
+    fittedGEV = gevfit(df_annualmaxima[:,col])
+    push!(RV20, returnlevel(fittedGEV, 20).value[])
+    push!(RV100, returnlevel(fittedGEV, 100).value[])
+end
+
+push!(df_indices, ["RV20", RV20...])
+push!(df_indices, ["RV100", RV100...])
 ```
