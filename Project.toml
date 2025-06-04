@@ -1,7 +1,7 @@
 name = "QuantileMatching"
 uuid = "c8fc808f-91d0-4910-90d7-c7fb3b64f671"
 authors = ["Gabriel Gobeil <gabriel.gobeil@polymtl.ca>", "Jonathan Jalbert <jonathan.jalbert@polymtl.ca>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
