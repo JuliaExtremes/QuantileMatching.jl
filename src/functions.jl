@@ -51,7 +51,7 @@ function eqm(y::Vector{<:Real}, x::Vector{<:Real})
     qmm = EmpiricalQuantileMatchingModel(y⁺, x⁺)
 
     # Quantile matching of non-zero values
-    x̃⁺ = match(qmm, x⁺)
+    x̃⁺ = match.(qmm, x⁺)
 
     # Replace the non-zero values in the frequency adjusted series.
     x̃[x̃ .> 0] = x̃⁺

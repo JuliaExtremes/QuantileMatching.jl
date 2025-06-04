@@ -134,7 +134,7 @@ qmm = EmpiricalQuantileMatchingModel(y⁺, x⁺)
 
 Quantile matching of the non-zero simulated precipitations:
 ```@example stationary
-x̃⁺ = match(qmm, x⁺)
+x̃⁺ = match.(qmm, x⁺)
 
 println("") # hide
 ```

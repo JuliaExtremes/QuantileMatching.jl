@@ -24,7 +24,7 @@
         actualsample = [0.21713363327549823, 1.502901744984021, 2.046092118287037, 2.2249912757196464, 2.6629189261859207]
 
         qmm = EmpiricalQuantileMatchingModel(targetsample, actualsample)
-        x̃ = match(qmm, actualsample)
+        x̃ = match.(qmm, actualsample)
 
         @test all(QuantileMatching.eqm(targetsample, actualsample) .≈ x̃)
 
