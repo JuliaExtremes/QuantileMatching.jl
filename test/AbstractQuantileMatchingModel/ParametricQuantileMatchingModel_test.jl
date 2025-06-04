@@ -52,32 +52,55 @@ end
 
 @testset "match(::ParametricQuantileMatchingModel)" begin
     
-    targetdist = Exponential(.5)
-    actualdist = Exponential(2)
-    projdist = Exponential(3)
-    
     @testset "stationary" begin
+
+        targetdist = Exponential(.5)
+        actualdist = Exponential(2)
         
         qmm = ParametricQuantileMatchingModel(targetdist, actualdist)
         
-        x = [4]
-        x̃ = rate(actualdist)/rate(targetdist)*[4]
+        x = 4
+        x̃ = rate(actualdist)/rate(targetdist)*4
         
         @test match(qmm, x) ≈ x̃
         
     end
     
     @testset "non-stationary" begin
+
+        targetdist = Exponential(.5)
+        actualdist = Exponential(2)
+        projdist = Exponential(3)
         
         qmm = ParametricQuantileMatchingModel(targetdist, actualdist, projdist)
         
         λ = rate(targetdist)*rate(projdist)/rate(actualdist)
         
-        x = [4.]
+        x = 4.
         x̃ = quantile(Exponential(1/λ), cdf(projdist, x))
         
         @test match(qmm, x) ≈ x̃
         
+    end
+
+    @testset "outside the support" begin
+        
+        targetdist = Exponential(1)
+        actualdist = Beta(1,1)
+
+        qmm = ParametricQuantileMatchingModel(targetdist, actualdist)
+
+        @test isfinite(match(qmm, -1.))
+        @test !isfinite(match(qmm, 1.2))
+                
+        targetdist = Beta(2,2)
+        qmm = ParametricQuantileMatchingModel(targetdist, actualdist)
+        @test isfinite(match(qmm, 1.2))
+            
+        targetdist = Normal(0,1)
+        qmm = ParametricQuantileMatchingModel(targetdist, actualdist)
+        @test !isfinite(match(qmm, -1.))
+
     end
     
 end

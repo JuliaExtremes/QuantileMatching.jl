@@ -40,7 +40,7 @@
 
         qmm = ParametricQuantileMatchingModel(fd_Y, fd_X)
 
-        x̃ = match(qmm, actualsample)
+        x̃ = match.(qmm, actualsample)
 
         @test all(pqm(Gamma, targetsample, actualsample) .≈ x̃)
         

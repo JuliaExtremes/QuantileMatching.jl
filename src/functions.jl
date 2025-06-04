@@ -89,7 +89,7 @@ function pqm(pd::Type{<:ContinuousUnivariateDistribution}, y::AbstractVector{<:R
     qmm = ParametricQuantileMatchingModel(fd_Y, fd_X)
 
     # Quantile matching of non-zero values
-    x̃⁺ = match(qmm, x⁺)
+    x̃⁺ = match.(qmm, x⁺)
 
     # Replace the non-zero values in the frequency adjusted series. 
     x̃[x̃ .> 0] = x̃⁺

@@ -58,20 +58,43 @@ function showParametricQuantileMatchingModel(io::IO, obj::ParametricQuantileMatc
 end
 
 
-function match(pqm::ParametricQuantileMatchingModel{Stationary}, x::Vector{<:Real})
+"""
+    match(pqm::ParametricQuantileMatchingModel{Stationary}, x::Real)
+
+Parametric quantile matching of the actual value `x` according to the parametric quantile matching model `pqm`.
+
+### Note
+
+If `x` is outside the support of the actual distribution and the target distribution is unbounded, the function returns an infinite value.
+"""
+function match(pqm::ParametricQuantileMatchingModel{Stationary}, x::Real)
     
     targetdist = get_targetdist(pqm)
     actualdist = get_actualdist(pqm)
           
-    p = cdf.(actualdist, x)
+    p = cdf(actualdist, x)
     
-    x̃ = quantile.(targetdist, p)
-    
+    if p ≈ 0.
+        if isfinite(minimum(targetdist))
+            x̃ = minimum(targetdist)
+        else
+            x̃ = -Inf
+        end
+    elseif p ≈ 1.
+        if isfinite(maximum(targetdist))
+            x̃ = maximum(targetdist)
+        else
+            x̃ = Inf
+        end
+    else
+        x̃ = quantile.(targetdist, p)
+    end
+   
     return x̃
     
 end
 
-function match(nspqm::ParametricQuantileMatchingModel{NonStationary}, x::Vector{<:Real})
+function match(nspqm::ParametricQuantileMatchingModel{NonStationary}, x::Real)
     
     targetdist = get_targetdist(nspqm)
     actualdist = get_actualdist(nspqm)
