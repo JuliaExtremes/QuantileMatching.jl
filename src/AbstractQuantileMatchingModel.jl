@@ -9,6 +9,8 @@ abstract type AbstractQuantileMatchingModel end
 abstract type Stationary end
 abstract type NonStationary end
 
+Base.Broadcast.broadcastable(obj::AbstractQuantileMatchingModel) = Ref(obj)
+
 """
     match(qmm::AbstractQuantileMappingModel, x::Vector{<:Real})
 

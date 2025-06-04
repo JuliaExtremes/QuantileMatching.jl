@@ -65,7 +65,7 @@ end
         
         qmm = EmpiricalQuantileMatchingModel(targetsample, actualsample)
         
-        @test match(qmm, [2.])[] ≈ 0.48401845735265503
+        @test match(qmm, 2.) ≈ 0.48401845735265503
         
     end
     
@@ -73,7 +73,7 @@ end
         
         qmm = EmpiricalQuantileMatchingModel(targetsample, actualsample, projsample)
 
-        @test match(qmm, [2.])[] ≈ 0.8349460253709341
+        @test match(qmm, 2.) ≈ 0.8349460253709341
         
     end
     
