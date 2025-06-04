@@ -212,7 +212,7 @@ qmm = ParametricQuantileMatchingModel(fd_Y, fd_X)
 
 Quantile matching of the non-zero simulated precipitations:
 ```@example stationary
-x̃⁺ = match(qmm, x⁺)
+x̃⁺ = match.(qmm, x⁺)
 
 println("") # hide
 ```
@@ -304,7 +304,7 @@ qmm = ParametricQuantileMatchingModel(fd_Y, fd_X)
 
 Quantile matching of the non-zero simulated precipitations:
 ```@example stationary
-x̃⁺ = match(qmm, x⁺)
+x̃⁺ = match.(qmm, x⁺)
 
 println("") # hide
 ```
@@ -369,7 +369,7 @@ qmm = ParametricQuantileMatchingModel(fd_Y, fd_X)
 
 Quantile matching of the non-zero simulated precipitations:
 ```@example stationary
-x̃⁺ = match(qmm, x⁺)
+x̃⁺ = match.(qmm, x⁺)
 
 println("") # hide
 ```
