@@ -42,10 +42,17 @@ function qqplot(y::Vector{Float64}, pd::Distribution)
     Plots.plot!(q[[1, end]], q[[1, end]], label="", ls=:dash, color=:black)
 end
 
-function qqplot(y::Vector{<:Real}, ŷ::Vector{<:Real})
+function qqplot(y::Vector{<:Real}, ŷ::Vector{<:Real}; interpolation::Bool=true)
     
-    q, p = QuantileMatching.ecdf(y)
-    q̂ = quantile(ŷ, p)
+    # If the 2 vectors do not have the same length, decide if we interpolate for quantile or sample the longer vector.
+    if interpolation
+        q, p = QuantileMatching.ecdf(y)
+        q̂ = quantile(ŷ, p)
+    else
+        n = minimum([length(y), length(ŷ)])
+        q = sort(sample(y, n, replace=false))
+        q̂ = sort(sample(ŷ, n, replace=false))
+    end
     
     Plots.plot(q, q̂, seriestype = :scatter, markerstrokewidth=0, markercolor=:grey, label="",
         xlabel="observed quantile", ylabel="simulated quantile")
